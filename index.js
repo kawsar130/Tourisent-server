@@ -22,12 +22,31 @@ async function run() {
         await client.connect();
         const database = client.db("tourisent");
         const packagesCollection = database.collection("packages");
+        const ordersCollection = database.collection("orders");
 
         // Get API
         app.get("/packages", async (req, res) => {
             const cursor = packagesCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
+        });
+
+        // Post Packages API
+        app.post("/packages", async (req, res) => {
+            const singlePackage = req.body;
+            console.log(singlePackage);
+            const result = await packagesCollection.insertOne(singlePackage);
+            console.log(result);
+            res.json(result);
+        });
+
+        // Post Place Order API
+        app.post("/orders", async (req, res) => {
+            const singleOrder = req.body;
+            console.log(singleOrder);
+            const result = await ordersCollection.insertOne(singleOrder);
+            console.log(result);
+            res.json(result);
         });
     } finally {
         // await client.close();
