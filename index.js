@@ -38,6 +38,13 @@ async function run() {
             res.send(myOrders);
         });
 
+        // Get Manage All Order collection
+        app.get("/manageOrders", async (req, res) => {
+            const cursor = ordersCollection.find({});
+            const manageOrders = await cursor.toArray();
+            res.send(manageOrders);
+        });
+
         // Post Packages API
         app.post("/packages", async (req, res) => {
             const singlePackage = req.body;
