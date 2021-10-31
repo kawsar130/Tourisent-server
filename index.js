@@ -24,11 +24,18 @@ async function run() {
         const packagesCollection = database.collection("packages");
         const ordersCollection = database.collection("orders");
 
-        // Get API
+        // Get packages API
         app.get("/packages", async (req, res) => {
             const cursor = packagesCollection.find({});
             const packages = await cursor.toArray();
             res.send(packages);
+        });
+
+        // Get MyOrder collection
+        app.get("/myorders", async (req, res) => {
+            const cursor = ordersCollection.find({});
+            const myOrders = await cursor.toArray();
+            res.send(myOrders);
         });
 
         // Post Packages API
