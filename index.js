@@ -1,5 +1,6 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
 
 const cors = require("cors");
 require("dotenv").config();
@@ -36,6 +37,21 @@ async function run() {
             const cursor = ordersCollection.find({});
             const myOrders = await cursor.toArray();
             res.send(myOrders);
+        });
+
+        // Delete users from myorders
+        app.delete("/myorders/delete/:id", async (req, res) => {
+            const id = req.params.id;
+            const item = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(item);
+            res.send(result.acknowledged);
+        });
+        // Delete users from manage orders
+        app.delete("/manageorders/delete/:id", async (req, res) => {
+            const id = req.params.id;
+            const item = { _id: ObjectId(id) };
+            const result = await ordersCollection.deleteOne(item);
+            res.send(result.acknowledged);
         });
 
         // Get Manage All Order collection
